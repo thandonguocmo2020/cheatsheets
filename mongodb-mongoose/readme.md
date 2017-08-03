@@ -79,12 +79,16 @@ Post.findOne(criteria, function(error, post) {
   })
 })
 
+ Post.findByIdAndUpdate(req.params.id,obj.payload, { new: true, upsert: true, setDefaultsOnInsert: true },callback);
+
 // Delete
 Post.findOne(criteria, function(error, post) {
   post.remove(function(error){
     ...
   })
 })
+
+
 ```
 
 ## Mongoose Model Methods
