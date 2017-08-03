@@ -79,7 +79,8 @@ Post.findOne(criteria, function(error, post) {
   })
 })
 
- Post.findByIdAndUpdate(req.params.id,obj.payload, { new: true, upsert: true, setDefaultsOnInsert: true },callback);
+// FindIdUpdate
+ Post.findByIdAndUpdate(id,request.payload, { new: true, upsert: true, setDefaultsOnInsert: true },callback);
 
 // Delete
 Post.findOne(criteria, function(error, post) {
