@@ -57,39 +57,86 @@ Post.find({},function(error, posts){
 * `Schema.Types.ObjectId`
 
 ## Create, Read, Update, Delete (CRUD) Mongoose Example
-
+var Tank = mongoose.model('Tank', yourSchema);
 ```
-// Create
-var post = new Post({title: 'a', text: 'b')
-post.save(function(error, document){
-  ...
+// c1. Create
+
+var small = new Tank({ size: 'small' });
+small.save(function (err) {
+  if (err) return handleError(err);
+  // saved!
 })
 
 
-// Read
-Post.findOne(criteria, function(error, post) {
-  ...
+// c2. Create
+
+Tank.create({ size: 'small' }, function (err, small) {
+  if (err) return handleError(err);
+  // saved!
 })
 
-// Update
-Post.findOne(criteria, function(error, post) {
-  post.set()
-  post.save(function(error, document){
-    ...
-  })
-})
 
-// FindIdUpdate
- Post.findByIdAndUpdate(id,request.payload, { new: true, upsert: true, setDefaultsOnInsert: true },callback);
+-----
+// c1 Read find
 
+MyModel.find({ name: 'john', age: { $gte: 18 }}, function (err, docs) {});
+
+// c2 FindById = findById(undefined) == findOne({ _id: null })
+
+Adventure.findById(id, 'name length', function (err, adventure) {});
+
+// c3  findOne == findOne({}) == findOne({ _id: undefined }) --- find return document and select 'name' from document
+
+Adventure.findOne({ type: 'iphone' }, 'name', function (err, adventure) {});
+
+-----
+
+// c1. Update using findById
+
+Tank.findById(id, function (err, tank) {
+  if (err) return handleError(err);
+  
+  tank.size = 'large';
+  tank.save(function (err, updatedTank) {
+    if (err) return handleError(err);
+    res.send(updatedTank);
+  });
+});
+
+// c2. Update - not return document
+
+Tank.update({ _id: id }, { $set: { size: 'large' }}, callback);
+
+// c3. Update -- update has return document
+
+Tank.findByIdAndUpdate(id, { $set: { size: 'large' }}, { new: true }, function (err, tank) {
+  if (err) return handleError(err);
+  res.send(tank);
+});
+
+-----
 // Delete
-Post.findOne(criteria, function(error, post) {
-  post.remove(function(error){
-    ...
-  })
+// c1. Remove
+
+Tank.remove({ size: 'large' }, function (err) {
+  if (err) return handleError(err);
+  // removed!
+});
+
+// c2. Remove 
+
+Tank.findByIdAndRemove(id, function (err) {
+  if (err) return handleError(err);
+  // removed!
+});
+
+
+// c3. Remove 
+
+A.findOneAndRemove({ _id: '5985994eedd39b11c0f824a5' }, function (err) {
+  if (err) return handleError(err);
+  // removed!
 })
-
-
 ```
 
 ## Mongoose Model Methods
