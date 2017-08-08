@@ -114,6 +114,10 @@ Tank.findByIdAndUpdate(id, { $set: { size: 'large' }}, { new: true }, function (
   res.send(tank);
 });
 
+
+// return update ==   truy vấn khớp bao nhiêu chèn vào bao nhiêu
+// { n: 0, nModified: 0, ok: 1 } update fail // hoàn thành bao nhiêu chèn vào bao nhiêu
+//{ n: 1, nModified: 1, ok: 1 }. update success
 -----
 // Delete
 // c1. Remove
